@@ -1,0 +1,177 @@
+<app-user-nav></app-user-nav>
+<br>
+<br>
+<p-dataTable #dt [value]="contacts" selectionMode="single" [(selection)]="selectedContact"
+             (onRowSelect)="onRowSelect($event)" [paginator]="true" rows="10" [responsive]="true"
+             resizableColumns="true"
+             emptyMessage="Записей нету"
+>
+  <p-header>
+    <div class="ui-helper-clearfix">
+      <button type="button" pButton icon="fa-file-o" iconPos="left" label="CSV" (click)="dt.exportCSV()"
+              style="float:left"></button>
+      <p align="center">Контакты</p>
+    </div>
+  </p-header>
+  <p-column field="firstName" header="Имя " [filter]="true"
+            filterPlaceholder="Search" filterMatchMode="contains"
+            [sortable]="true"></p-column>
+  <p-column field="lastName" header="Фамилия " [filter]="true"
+            filterPlaceholder="Search" filterMatchMode="contains"
+            [sortable]="true"></p-column>
+  <p-column field="patronymic" header="Отчество " [filter]="true"
+            filterPlaceholder="Search" filterMatchMode="contains"
+            [sortable]="true"></p-column>
+  <p-column field="mobilephone" header="Мобильный номер " [filter]="true"
+            filterPlaceholder="Search" filterMatchMode="contains"
+            [sortable]="true"></p-column>
+  <p-column field="phone" header="Номер " [filter]="true"
+            filterPlaceholder="Search" filterMatchMode="contains"
+            [sortable]="true"></p-column>
+  <p-column field="address" header="Адрес " [filter]="true"
+            filterPlaceholder="Search" filterMatchMode="contains"
+            [sortable]="true"></p-column>
+  <p-column field="email" header="Почта " [filter]="true"
+            filterPlaceholder="Search" filterMatchMode="contains"
+            [sortable]="true"></p-column>
+  <p-footer>
+    <div class="ui-helper-clearfix" style="width:100%">
+      <button type="button" pButton icon="fa-plus" style="float:left" (click)="showDialogToAdd()"
+              label="Добавить"></button>
+    </div>
+  </p-footer>
+</p-dataTable>
+<form #f="ngForm" name="form">
+  <p-dialog id="dialog" modal="true" (onHide)="updateDialog(f)" header="Детали записи" [width]="600" [(visible)]="load">
+    <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="contact">
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-4"><label for="firstName">Имя*<i class="fa fa-user"></i></label></div>
+        <div class="ui-grid-col-8">
+          <input pInputText id="firstName"
+                 [(ngModel)]="contact.firstName" #firstName="ngModel" name="firstName"
+                 required
+                 minlength="4"
+                 maxlength="15"
+                 pattern="^[А-Яа-яЁёЇїІіЄєҐґa-zA-z']+$"
+
+          />
+          <div [hidden]="firstName.valid || firstName.pristine" class="-flip-horizontal alert-warning">
+            <div [hidden]="!firstName.hasError('required')">Обезательное поле</div>
+            <div [hidden]="!firstName.hasError('minlength') || (firstName.hasError('pattern')) ">Длинна больше 4</div>
+            <div [hidden]="!firstName.hasError('pattern')">
+              Только буквы
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-4"><label for="lastName">Фамилия* <i class="fa fa-user"></i></label></div>
+        <div class="ui-grid-col-8">
+          <input pInputText id="lastName"
+                 [(ngModel)]="contact.lastName" #lastName="ngModel" name="lastName"
+                 required
+                 minlength="4"
+                 maxlength="15"
+                 pattern="^[А-Яа-яЁёЇїІіЄєҐґa-zA-z']+$"
+
+          />
+          <div [hidden]="lastName.valid || lastName.pristine" class="-flip-horizontal alert-warning">
+            <div [hidden]="!lastName.hasError('required')">Обезательное поле</div>
+            <div [hidden]="!lastName.hasError('minlength')|| (lastName.hasError('pattern')) ">Длинна больше 4</div>
+            <div [hidden]="!lastName.hasError('pattern')">
+              Только буквы
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-4"><label for="patronymic">Отчество* <i class="fa fa-user"></i></label></div>
+        <div class="ui-grid-col-8">
+          <input pInputText id="patronymic"
+                 #patronymic="ngModel" name="patronymic" [(ngModel)]="contact.patronymic"
+                 required
+                 minlength="4"
+                 maxlength="15"
+                 pattern="^[А-Яа-яЁёЇїІіЄєҐґa-zA-z']+$"
+
+          />
+          <div [hidden]="patronymic.valid || patronymic.pristine" class="-flip-horizontal alert-warning">
+            <div [hidden]="!patronymic.hasError('required')">Обезательное поле</div>
+            <div [hidden]="!patronymic.hasError('minlength') || (patronymic.hasError('pattern')) ">Длинна больше 4
+            </div>
+            <div [hidden]="!patronymic.hasError('pattern')">
+              Только буквы
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-4">
+          <label for="mobilephone">Мобильный номер* <i class="fa fa-phone"></i></label></div>
+        <div class="ui-grid-col-8">
+          <input pInputText id="mobilephone"
+                 placeholder="+380"
+                 [(ngModel)]="contact.mobilephone" #mobilephone="ngModel" name="mobilephone"
+                 required
+                 maxlength="13"
+                 pattern="^(\+380)+(50|63|66|67|73|93|95|96|97|98|99)(?:[0-9] ?){6}[0-9]$"
+          />
+          <div [hidden]="mobilephone.valid || mobilephone.pristine" class="-flip-horizontal alert-warning">
+            <div [hidden]="!mobilephone.hasError('required')">Обезательное поле</div>
+            <div [hidden]="!mobilephone.hasError('pattern')">
+              Неправльный формат номера
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-4"><label for="phone">Номер <i class="fa fa-phone"></i></label></div>
+        <div class="ui-grid-col-8">
+          <input pInputText id="phone"
+                #phone="ngModel" name="phone" [(ngModel)]="contact.phone"
+                 maxlength="15"
+                 pattern="^[0-9]+$"
+          />
+          <div [hidden]="phone.valid || phone.pristine" class="-flip-horizontal alert-warning">
+            <div [hidden]="!phone.hasError('pattern')">
+              Только цыфры
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-4"><label for="address">Адрес <i class="fa fa-address-book"></i></label></div>
+        <div class="ui-grid-col-8">
+          <input pInputText id="address"
+                 name="address" [(ngModel)]="contact.address"
+                 maxlength="50"
+          /></div>
+      </div>
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-4"><label for="email">Почта<i class="fa fa-at"></i></label></div>
+        <div class="ui-grid-col-8">
+          <input pInputText id="email"
+                 name="email" [(ngModel)]="contact.email" #email="ngModel"
+                 pattern="^[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})$"
+                 maxlength="30"
+          />
+          <div [hidden]="email.valid || email.pristine" class="-flip-horizontal alert-warning">
+
+            <div [hidden]="!email.hasError('pattern')">
+              Неправльный формат почты
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p-footer>
+      <div class="ui-dialog-buttonpane ui-helper-clearfix">
+        <button [disabled]="!f.form.valid" type="button" pButton icon="fa-check"
+                (click)="save()"
+                label="Сохранить"></button>
+        <button type="button" pButton icon="fa-close" (click)="delete()" label="Удалить"></button>
+      </div>
+    </p-footer>
+  </p-dialog>
+</form>

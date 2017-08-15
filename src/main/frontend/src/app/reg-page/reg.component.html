@@ -1,0 +1,117 @@
+<div class="container align-content-center col-md-4">
+<h2 style="padding-left: 20px">Регистрация</h2>
+  <form name="form" (ngSubmit)="f.form.valid && register()" #f="ngForm" class="col-xs-8" novalidate>
+    <div class="form-group">
+      <label for="firstName">Имя <i class="fa fa-user-circle"></i></label>
+      <input pTooltip="Введите имя" id="firstName" type="text" class="form-control"
+             name="firstName" [(ngModel)]="model.firstName" #firstName="ngModel"
+             required
+             minlength="5"
+             maxlength="15"
+             pattern="^[А-Яа-яЁёЇїІіЄєҐґa-zA-z']+$"
+      />
+      <div [hidden]="firstName.valid || firstName.pristine" class="alert alert-warning">
+        <div [hidden]="!firstName.hasError('required')">Обезательное поле</div>
+        <div [hidden]="!firstName.hasError('minlength') ">Длинна больше 5</div>
+        <div [hidden]="!firstName.hasError('pattern')|| (firstName.hasError('minlength'))">
+          Только буквы
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="lastName">Фамилия <i class="fa fa-user-circle"></i></label>
+      <input pTooltip="Введите фамилию" id="lastName" type="text" class="form-control"
+             name="lastName" [(ngModel)]="model.lastName" #lastName="ngModel"
+             required
+             minlength="5"
+             maxlength="15"
+             pattern="^[А-Яа-яЁёЇїІіЄєҐґa-zA-z']+$"
+      />
+      <div [hidden]="lastName.valid || lastName.pristine" class="alert alert-warning">
+        <div [hidden]="!lastName.hasError('required')">Обезательное поле</div>
+        <div [hidden]="!lastName.hasError('minlength') ">Длинна больше 5</div>
+        <div [hidden]="!lastName.hasError('pattern')|| (lastName.hasError('minlength'))">
+          Только буквы
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="patronymic">Отчество <i class="fa fa-user-circle"></i></label>
+      <input pTooltip="Введите отчество" id="patronymic" type="text" class="form-control"
+             name="patronymic" [(ngModel)]="model.patronymic" #patronymic="ngModel"
+             required
+             minlength="5"
+             maxlength="15"
+             pattern="^[А-Яа-яЁёЇїІіЄєҐґa-zA-z']+$"
+      />
+
+      <div [hidden]="patronymic.valid || patronymic.pristine" class="alert alert-warning ">
+        <div [hidden]="!patronymic.hasError('required')">Обезательное поле</div>
+        <div [hidden]="!patronymic.hasError('minlength') ">Длинна больше 5</div>
+        <div [hidden]="!patronymic.hasError('pattern')|| (patronymic.hasError('minlength'))">
+          Только буквы
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="login">Логин <i class="fa fa-user"></i></label>
+      <input pTooltip="Введите ваш логин" id="login" type="text" class="form-control"
+             name="login" [(ngModel)]="model.login" #login="ngModel"
+             required
+             minlength="3"
+             maxlength="15"
+             validateLogin
+             pattern="^[a-zA-Z]+$"
+      />
+      <div [hidden]="login.valid || login.pristine" class="alert alert-warning">
+        <div [hidden]="!login.hasError('required')">Обезательное поле</div>
+        <div [hidden]="!login.hasError('minlength') ">Длинна больше 3</div>
+        <div [hidden]="!login.hasError('pattern')|| (login.hasError('minlength'))">
+          Только латинские символы
+        </div>
+        <div [hidden]="!login.hasError('validateLogin')">
+          Такой логин занят
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="password">Пароль <i class="fa fa-key"></i></label>
+      <input pTooltip="Введите пароль" id="password" type="password" class="form-control" name="password"
+             [(ngModel)]="model.password"
+             #password="ngModel"
+             required
+             minlength="5"
+             maxlength="15"
+             reverse="true"
+             validateEqual="confirmPassword"
+      />
+      <div [hidden]="password.valid || password.pristine" class="alert alert-warning">
+        <div [hidden]="!password.hasError('minlength')">Длина поля не 5 символов</div>
+        <div [hidden]="!password.hasError('required')">Обязательное поле</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="confirmPassword">Подтвердите пароль <i class="fa fa-key"></i></label>
+      <input pTooltip="Повторите пароль" type="password" class="form-control" id="confirmPassword"
+             [(ngModel)]='model.confirmPassword' name="confirmPassword" #confirmPassword="ngModel"
+             required
+             validateEqual="password"
+             minlength="5"
+             maxlength="15"
+      />
+      <div [hidden]="confirmPassword.valid || confirmPassword.pristine" class="alert alert-danger">
+        <div [hidden]="!confirmPassword.hasError('minlength')"> Длина не меньше 5 символов</div>
+        <div [hidden]="!confirmPassword.hasError('required')"> Обязательное поле</div>
+        <div [hidden]=" (confirmPassword.hasError('validateEqual')|| (confirmPassword.hasError('minlength')|| confirmPassword.hasError('required') ))">
+          Пароли не совпадают
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <button [disabled]="!f.form.valid" class="btn btn-primary">Регистрация</button>
+      <button class="btn btn-primary" type="reset">Сброс</button>
+      <a [routerLink]="['/login']" class="btn btn-link">Вход</a>
+    </div>
+  </form>
+</div>
