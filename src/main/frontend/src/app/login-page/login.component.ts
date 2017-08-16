@@ -12,7 +12,7 @@ export class LoginComponent implements OnInit {
     login: '',
     password: ''
   };
-
+  loading = true;
   ngOnInit(): void {
     const item = localStorage.getItem('user');
     if (item === null) {
@@ -43,13 +43,15 @@ export class LoginComponent implements OnInit {
           debugger;
           if (data) {
             localStorage.setItem('user', JSON.stringify(this.model));
+            this.loading = true;
             this.router.navigate(['user']);
+
           } else {
-            window.alert('incorrect');
+            this.loading = false;
           }
         },
         error2 => {
-          window.alert('incorrect');
+          this.loading = false;
         });
 
   }

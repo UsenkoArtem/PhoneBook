@@ -9,7 +9,7 @@ public interface UserManager {
 
     User getUserByLogin(String login) throws IOException;
 
-    User addNewUser(User userEntity) throws IOException;
+    User addNewUser(User user) throws IOException;
 
     User getUserById(int id) throws IOException;
 

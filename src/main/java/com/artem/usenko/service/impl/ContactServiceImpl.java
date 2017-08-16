@@ -25,7 +25,8 @@ public class ContactServiceImpl implements ContactService {
 
     @Override
     public List<Contact> getAllContactByUserId(int id) throws IOException {
-
+        User userById = userManager.getUserById(id);
+        if (userById == null) return null;
         return contactManager.getAllContactsByUserId(id);
     }
 
@@ -36,13 +37,14 @@ public class ContactServiceImpl implements ContactService {
 
     @Override
     public Contact addNewContact(Contact contact) throws IOException {
-
+        User userById = userManager.getUserById(contact.getUserId());
+        if (userById == null) return null;
         return contactManager.addContact(contact);
     }
 
     @Override
     public Contact updateContact(Contact contact) throws IOException {
-        User userById = userManager.getUserById(contact.getId());
+        User userById = userManager.getUserById(contact.getUserId());
         if (userById == null) return null;
         return contactManager.updateContact(contact);
     }

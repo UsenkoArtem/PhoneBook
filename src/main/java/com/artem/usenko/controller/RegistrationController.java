@@ -28,14 +28,11 @@ public class RegistrationController {
 
     @PostMapping
     public ResponseEntity<User> registration(@Valid @RequestBody User user, BindingResult bindingResult) throws IOException, CsvDataTypeMismatchException, CsvRequiredFieldEmptyException {
-        System.out.println(user);
-        System.out.println(bindingResult.hasErrors());
+
         if(bindingResult.hasErrors()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
       }
-
         User registration = regService.registration(user);
-        System.out.println(registration);
         if (registration == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } else

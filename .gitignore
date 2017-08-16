@@ -52,8 +52,7 @@ testem.log
 yarn-error.log
 
 # e2e
-src/main/frontend/e2e/
-src/main/frontend/README.md
+e2e/
 /e2e/*.map
 
 # System Files

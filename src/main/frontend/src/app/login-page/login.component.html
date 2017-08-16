@@ -31,6 +31,8 @@
           <div [hidden]="!password.hasError('minlength') ">Длинна больше 5</div>
         </div>
       </div>
+      <div  [hidden]="loading" class="alert alert-warning" id="incorrect">Логин или пароль не верны</div>
+
       <div class="form-group">
         <button [disabled]="!f.form.valid" class="btn btn-primary">Вход</button>
         <a [routerLink]="['/registration']" class="btn btn-primary">Регистрация</a>

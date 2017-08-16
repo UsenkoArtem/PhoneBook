@@ -9,7 +9,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.IOException;
@@ -21,7 +21,7 @@ import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = PhoneBook.class)
-@TestPropertySource(locations = "classpath:database-test.properties")
+@ActiveProfiles("dataBase")
 public class ContactManagerImplTest {
 
     @Autowired
@@ -47,21 +47,16 @@ public class ContactManagerImplTest {
     public void deleteContactById() throws IOException {
         User delete = addUserAndContacts("Delete");
         List<Contact> allContactsByUserId = contactManager.getAllContactsByUserId(delete.getId());
-        assertTrue(allContactsByUserId.size()>0);
-        for (Contact contact: allContactsByUserId) {
+        assertTrue(allContactsByUserId.size() > 0);
+        for (Contact contact : allContactsByUserId) {
             contactManager.deleteContactById(contact.getId());
         }
         int size = contactManager.getAllContactsByUserId(delete.getId()).size();
-        assertEquals(0,size);
+        assertEquals(0, size);
     }
 
     private User addUserAndContacts(String login) throws IOException {
-        User user = new User();
-        user.setLogin(login);
-        user.setFirstName("Admin");
-        user.setLastName("Admin");
-        user.setPatronymic("Admin");
-        user.setPassword("123123");
+        User user = new User(login, "Admin", "Admin", "Admin", "123123");
         User newUser = userManager.addNewUser(user);
         user.setId(newUser.getId());
         Contact contact = new Contact();
@@ -73,7 +68,7 @@ public class ContactManagerImplTest {
         for (int i = 0; i < 5; ++i) {
             contactManager.addContact(contact);
         }
-            return user;
+        return user;
 
     }
 }

@@ -3,8 +3,6 @@ package com.artem.usenko.service.impl;
 import com.artem.usenko.dto.User;
 import com.artem.usenko.manager.UserManager;
 import com.artem.usenko.service.RegService;
-import com.opencsv.exceptions.CsvDataTypeMismatchException;
-import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,11 +18,10 @@ public class RegServiceImpl implements RegService {
     }
 
     @Override
-    public User registration(User user) throws IOException, CsvDataTypeMismatchException, CsvRequiredFieldEmptyException {
+    public User registration(User user) throws IOException {
         User userByLogin = userManager.getUserByLogin(user.getLogin());
         if (userByLogin != null) return null;
-        User newUser = userManager.addNewUser(user);
-        return newUser;
+        return userManager.addNewUser(user);
     }
 
     @Override

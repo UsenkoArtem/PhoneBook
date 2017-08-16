@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
+
 @CrossOrigin
 @RestController
 @RequestMapping("api/contact")
@@ -28,29 +29,35 @@ public class ContactController {
     @GetMapping("/{userId}")
     public ResponseEntity<List<Contact>> getAllContactByLogin(@PathVariable("userId") int userId) throws IOException {
         List<Contact> allContactByLogin = contactService.getAllContactByUserId(userId);
+        if (allContactByLogin == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(allContactByLogin, HttpStatus.OK);
     }
+
     @PostMapping
     public ResponseEntity<Contact> addNewContact(@Valid @RequestBody Contact contact, BindingResult bindingResult) throws IOException {
-        if(bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        contactService.addNewContact(contact);
+        Contact newContact = contactService.addNewContact(contact);
+
+        if (newContact == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(contact, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Boolean> deleteContact(@PathVariable("id") int id) throws IOException {
         contactService.deleteContactById(id);
-        return new ResponseEntity<>(true,HttpStatus.OK);
+        return new ResponseEntity<>(true, HttpStatus.OK);
     }
 
     @PutMapping
     public ResponseEntity updateContact(@Valid @RequestBody Contact contact, BindingResult bindingResult) throws IOException {
-        if(bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        contactService.updateContact(contact);
+        Contact updateContact = contactService.updateContact(contact);
+
+        if( updateContact == null)  return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(contact, HttpStatus.OK);
     }
 

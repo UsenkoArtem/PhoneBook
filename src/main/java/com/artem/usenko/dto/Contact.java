@@ -46,4 +46,11 @@ public class Contact {
     @Size(max = 30)
     private String email;
 
+    public Contact(int userId, String firstName, String lastName, String patronymic, String mobilephone) {
+        this.userId = userId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.patronymic = patronymic;
+        this.mobilephone = mobilephone;
+    }
 }
