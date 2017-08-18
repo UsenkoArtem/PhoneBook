@@ -41,7 +41,7 @@ public class UserServiceImplTest {
     @Test
     public void getUserByLoginWhenLoginExist() throws Exception {
         addUser("TestAdmin");
-        User userByLogin = userService.getUserByLogin("Test");
+        User userByLogin = userService.getUserByLogin("TestAdmin");
         assertNotNull(userByLogin);
     }
 

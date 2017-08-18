@@ -38,7 +38,7 @@ public class RegServiceImplTest {
 
     @Test
     public void registrationUserWhenLoginAlreadyExist() throws  IOException {
-        addUser("Admin");
+        addUser("Admin1222");
         User user = new User("Admin","","","","");
         User registration = regService.registration(user);
         assertNull(registration);
